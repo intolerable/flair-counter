@@ -2,7 +2,9 @@ module Main where
 
 import Reddit.API
 import Reddit.API.Types.Flair
+import Reddit.API.Types.Options
 import Reddit.API.Types.Subreddit
+import Reddit.API.Types.User
 
 import Control.Applicative ((<$>))
 import Control.Arrow ((&&&))
@@ -25,16 +27,18 @@ main = do
         getAllFlairs (R subreddit) Nothing
       case res of
         Left err -> print err
-        Right fs ->
+        Right fs -> do
           Text.putStrLn $ formatFlairs $ countFlairs fs
+          Text.putStrLn ""
+          Text.putStrLn $ textShow (length fs) <> " users have chosen flair"
     _ -> putStrLn "Usage: flair-counter USERNAME PASSWORD SUBREDDIT"
 
-getAllFlairs :: SubredditName -> Maybe Text -> Reddit [Flair]
-getAllFlairs sub after = do
+getAllFlairs :: SubredditName -> Maybe UserID -> Reddit [Flair]
+getAllFlairs sub u = do
   res <-
-    nest $ getFlairList Nothing after (Just 1000) sub
+    nest $ getFlairList' (Options (After <$> u) (Just 1000)) sub
   case res of
-    Left _ -> getAllFlairs sub after
+    Left _ -> getAllFlairs sub u
     Right (FlairList fs n _) ->
       case n of
         Just _ -> do
