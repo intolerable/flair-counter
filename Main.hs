@@ -1,10 +1,10 @@
 module Main where
 
-import Reddit.API
-import Reddit.API.Types.Flair
-import Reddit.API.Types.Options
-import Reddit.API.Types.Subreddit
-import Reddit.API.Types.User
+import Reddit
+import Reddit.Types.Flair
+import Reddit.Types.Options
+import Reddit.Types.Subreddit
+import Reddit.Types.User
 
 import Control.Applicative ((<$>))
 import Control.Arrow ((&&&))
