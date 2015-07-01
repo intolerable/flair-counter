@@ -11,7 +11,7 @@ import Control.Arrow ((&&&))
 import Data.List (sortBy)
 import Data.Maybe (fromMaybe)
 import Data.Monoid ((<>))
-import Data.Ord (comparing)
+import Data.Ord (Down(..), comparing)
 import Data.Text (Text)
 import System.Environment (getArgs)
 import qualified Data.Map as Map
@@ -53,7 +53,7 @@ formatFlairs :: [(Text, Integer)] -> Text
 formatFlairs =
   Text.unlines .
   map (\(a,b) -> a <> " | " <> textShow b) .
-  sortBy (flip (comparing snd))
+  sortBy (comparing (Down . snd))
 
 textShow :: Show a => a -> Text
 textShow = Text.pack . show
