@@ -47,7 +47,7 @@ getAllFlairs sub u = do
         Nothing -> return fs
 
 countFlairs :: [Flair] -> [(Text, Integer)]
-countFlairs = Map.toList . Map.fromListWith (+) . map (fromMaybe "" . cssClass &&& const 1)
+countFlairs = Map.toList . Map.fromListWith (+) . map (Text.strip . fromMaybe "" . cssClass &&& const 1)
 
 formatFlairs :: [(Text, Integer)] -> Text
 formatFlairs =
